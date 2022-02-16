@@ -9,6 +9,10 @@ locals {
   is_custom = length(var.custom_prefixes) > 0 ? true : false
   is_sub    = length(var.subscription_id) > 0 ? true : false
 
+  tag_id_list = [
+    for v in data.alkira_billing_tag.tag : v.id
+  ]
+
 }
 
 /*
@@ -32,12 +36,13 @@ data "alkira_group" "group" {
   name = var.group
 }
 
-data "alkira_billing_tag" "tag" {
-  name = var.billing_tag
-}
-
 data "alkira_credential" "credential" {
   name = var.credential
+}
+
+data "alkira_billing_tag" "tag" {
+  for_each = toset(var.billing_tags)
+  name     = each.key
 }
 
 data "alkira_policy_prefix_list" "prefix" {
@@ -85,7 +90,7 @@ resource "alkira_connector_azure_vnet" "connector" {
   size            = var.size
   group           = data.alkira_group.group.name
   segment_id      = data.alkira_segment.segment.id
-  billing_tag_ids = [data.alkira_billing_tag.tag.id]
+  billing_tag_ids = local.tag_id_list
   credential_id   = data.alkira_credential.credential.id
 
   /*

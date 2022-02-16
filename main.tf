@@ -7,7 +7,6 @@ locals {
   }
 
   is_custom = length(var.custom_prefixes) > 0 ? true : false
-  is_sub    = length(var.subscription_id) > 0 ? true : false
 
   tag_id_list = [
     for v in data.alkira_billing_tag.tag : v.id
@@ -80,12 +79,10 @@ resource "azurerm_subnet" "azure_subnet" {
 resource "alkira_connector_azure_vnet" "connector" {
 
   # Azure values
-  name                  = var.name
-  azure_vnet_id         = azurerm_virtual_network.vnet.id
-  azure_region          = azurerm_virtual_network.vnet.location
-  azure_subscription_id = local.is_sub ? var.subscription_id : null
+  name          = var.name
+  azure_vnet_id = azurerm_virtual_network.vnet.id
 
-  # CXP values
+  # Connector values
   cxp             = var.cxp
   size            = var.size
   group           = data.alkira_group.group.name

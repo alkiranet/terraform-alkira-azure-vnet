@@ -4,12 +4,6 @@ variable "custom_prefixes" {
   default     = []
 }
 
-variable "subscription_id" {
-  description = "Azure subscription ID"
-  type        = string
-  default     = ""
-}
-
 variable "resource_group" {
   description = "Azure resource group"
   type        = string

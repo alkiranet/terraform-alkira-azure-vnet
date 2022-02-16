@@ -1,18 +1,24 @@
+variable "resource_group" {
+  description = "Azure resource group"
+  type        = string
+}
+
+variable "enabled" {
+  description = "Status of connector; Default is true"
+  type        = bool
+  default     = true
+}
+
 variable "custom_prefixes" {
   description = "Controls if custom prefixes are used for routing from cloud network to CXP; If values are provided, local var 'is_custom' changes to 'true'"
   type        = list(string)
   default     = []
 }
 
-variable "subscription_id" {
-  description = "Azure subscription ID"
-  type        = string
-  default     = ""
-}
-
-variable "resource_group" {
-  description = "Azure resource group"
-  type        = string
+variable "service_tags" {
+  description = "List of Azure Service Tags which excludes those services from routing via Alkira"
+  type        = list(string)
+  default     = []
 }
 
 variable "name" {
@@ -31,9 +37,10 @@ variable "subnets" {
   default     = [{}]
 }
 
-variable "billing_tag" {
-  description = "Alkira - billing tag"
-  type        = string
+variable "billing_tags" {
+  description = "List of billing tag names to apply to connector"
+  type        = list(string)
+  default     = []
 }
 
 variable "credential" {

@@ -1,6 +1,6 @@
-output "vnet_name" {
-  description = "Azure VNet name"
-  value       = azurerm_virtual_network.vnet.name
+output "name" {
+  description = "Network name"
+  value       = var.name
 }
 
 output "vnet_id" {
@@ -8,14 +8,14 @@ output "vnet_id" {
   value       = azurerm_virtual_network.vnet.id
 }
 
-output "vnet_region" {
-  description = "Azure VNet region"
-  value       = azurerm_virtual_network.vnet.location
+output "vnet_cidr" {
+  description = "Azure VNet CIDR"
+  value       = azurerm_virtual_network.vnet.address_space
 }
 
-output "vnet_cidr" {
-  description = "Azure VNet address space"
-  value       = azurerm_virtual_network.vnet.address_space
+output "azure_region" {
+  description = "Azure Region"
+  value       = azurerm_virtual_network.vnet.location
 }
 
 output "subnet" {
@@ -34,27 +34,22 @@ output "connector_id" {
   value       = alkira_connector_azure_vnet.connector.id
 }
 
-output "connector_name" {
-  description = "Name of the connector"
-  value       = alkira_connector_azure_vnet.connector.name
-}
-
-output "connector_cxp" {
+output "cxp" {
   description = "CXP that connector was provisioned in"
   value       = alkira_connector_azure_vnet.connector.cxp
 }
 
-output "connector_size" {
+output "size" {
   description = "Size of the connector"
   value       = alkira_connector_azure_vnet.connector.size
 }
 
-output "connector_segment_id" {
+output "segment_id" {
   description = "Segment that connector was placed in"
   value       = alkira_connector_azure_vnet.connector.segment_id
 }
 
-output "connector_group" {
+output "group" {
   description = "Group that connector was added to"
   value       = alkira_connector_azure_vnet.connector.group
 }

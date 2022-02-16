@@ -80,6 +80,7 @@ resource "alkira_connector_azure_vnet" "connector" {
 
   # Azure values
   name          = var.name
+  service_tags  = var.service_tags
   azure_vnet_id = azurerm_virtual_network.vnet.id
 
   # Connector values
@@ -88,8 +89,8 @@ resource "alkira_connector_azure_vnet" "connector" {
   size            = var.size
   group           = data.alkira_group.group.name
   segment_id      = data.alkira_segment.segment.id
-  billing_tag_ids = local.tag_id_list
   credential_id   = data.alkira_credential.credential.id
+  billing_tag_ids = local.tag_id_list
 
   /*
   Does custom bool exist?

@@ -1,12 +1,18 @@
+variable "resource_group" {
+  description = "Azure resource group"
+  type        = string
+}
+
+variable "enabled" {
+  description = "Status of connector; Default is true"
+  type        = bool
+  default     = true
+}
+
 variable "custom_prefixes" {
   description = "Controls if custom prefixes are used for routing from cloud network to CXP; If values are provided, local var 'is_custom' changes to 'true'"
   type        = list(string)
   default     = []
-}
-
-variable "resource_group" {
-  description = "Azure resource group"
-  type        = string
 }
 
 variable "name" {

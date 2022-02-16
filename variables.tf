@@ -15,6 +15,12 @@ variable "custom_prefixes" {
   default     = []
 }
 
+variable "service_tags" {
+  description = "List of Azure Service Tags which excludes those services from routing via Alkira"
+  type        = list(string)
+  default     = []
+}
+
 variable "name" {
   description = "Name of cloud network and Alkira connector"
   type        = string

@@ -31,9 +31,10 @@ variable "subnets" {
   default     = [{}]
 }
 
-variable "billing_tag" {
-  description = "Alkira - billing tag"
-  type        = string
+variable "billing_tags" {
+  description = "List of billing tag names to apply to connector"
+  type        = list(string)
+  default     = []
 }
 
 variable "credential" {

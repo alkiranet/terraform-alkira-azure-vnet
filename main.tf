@@ -83,6 +83,7 @@ resource "alkira_connector_azure_vnet" "connector" {
   azure_vnet_id = azurerm_virtual_network.vnet.id
 
   # Connector values
+  enabled         = var.enabled
   cxp             = var.cxp
   size            = var.size
   group           = data.alkira_group.group.name

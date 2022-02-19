@@ -6,10 +6,17 @@ locals {
     try("${subnet.name}/${subnet.cidr}") => subnet
   }
 
+  # If list is empty, set to true
   is_custom = length(var.custom_prefixes) > 0 ? true : false
 
+  # Filter tag IDs
   tag_id_list = [
     for v in data.alkira_billing_tag.tag : v.id
+  ]
+
+  # Filter prefix IDs
+  pfx_id_list = [
+    for v in data.alkira_policy_prefix_list.prefix : v.id
   ]
 
 }
@@ -45,13 +52,8 @@ data "alkira_billing_tag" "tag" {
 }
 
 data "alkira_policy_prefix_list" "prefix" {
-
-  # Count values
-  count = length(var.custom_prefixes)
-
-  # Index each prefix-list ID
-  name = element(tolist(var.custom_prefixes), count.index)
-
+  for_each = toset(var.custom_prefixes)
+  name     = each.key
 }
 
 # Create Azure VNet
@@ -102,6 +104,6 @@ resource "alkira_connector_azure_vnet" "connector" {
   routing_options = local.is_custom ? "ADVERTISE_CUSTOM_PREFIX" : "ADVERTISE_DEFAULT_ROUTE"
 
   # Custom prefixes
-  routing_prefix_list_ids = local.is_custom ? data.alkira_policy_prefix_list.prefix.*.id : null
+  routing_prefix_list_ids = local.is_custom ? local.pfx_id_list : null
 
 }

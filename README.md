@@ -8,76 +8,36 @@ This module makes it easy to provision an [Azure Virtual Network](https://docs.m
 - Place resources in an existing [Segment](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/segment) and [Group](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/group)
 - Provide optional capabilities for customized routing
 
-## Example Usage
-Alkira offers enhanced capabilities for how traffic gets routed to and from _Cloud Exchange Points (CXPs)_.
-
-### Onboard VNet (Default Options)
-By default, all traffic gets routed from a given _virtual network_ to Alkira CXP using the _default-route_.
+## Basic Usage
 
 ```hcl
 module "azure_vnet" {
   source = "alkiranet/azure-vnet/alkira"
 
   name           = "vnet-east"
-  cidr           = "10.1.0.0/16"
+  cidr           = "10.5.0.0/16"
   resource_group = "resource-group"
 
   subnets = [
     {
-      name = "subnet-01"
-      cidr = "10.1.1.0/24"
+      name = "app-subnet-a"
+      cidr = "10.5.1.0/24"
     },
-
     {
-      name = "subnet-02"
-      cidr = "10.1.2.0/24"
+      name = "app-subnet-b"
+      cidr = "10.5.2.0/24"
     }
   ]
 
   cxp          = "US-EAST-2"
   segment      = "corporate"
   group        = "non-prod"
-  credential   = "azure-auth"
   billing_tags = ["cloud", "network"]
+  credential   = "azure-auth"
 
 }
 ```
-
-### Custom Routing
-As an alternative, you can provide a list of prefixes for which traffic must be routed. This can be done by adding **custom_prefixes = []** to the configuration. It may be desired also to bypass routing to the _CXP_ for specific Azure services. You can _exclude_ services by adding **service_tags = []** to the configuration. Available service tags can be found [here.](https://docs.microsoft.com/en-us/azure/virtual-network/service-tags-overview#available-service-tags)
-
-```hcl
-module "azure_vnet_custom" {
-  source = "alkiranet/azure-vnet/alkira"
-
-  name            = "vnet-east"
-  cidr            = "10.1.0.0/16"
-  resource_group  = "resource-group"
-  custom_prefixes = ["pfx-01", "pfx-02"]
-
-  subnets = [
-    {
-      name = "subnet-01"
-      cidr = "10.1.1.0/24"
-    },
-
-    {
-      name = "subnet-02"
-      cidr = "10.1.2.0/24"
-    }
-  ]
-
-  cxp          = "US-EAST-2"
-  segment      = "corporate"
-  group        = "non-prod"
-  credential   = "azure-auth"
-  billing_tags = ["cloud", "network"]
-  service_tags = ["AzureDatabricks", "AppService", "AzureKeyVault"]
-
-}
-```
-
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -127,7 +87,7 @@ No modules.
 | <a name="input_segment"></a> [segment](#input\_segment) | Alkira - segment to add connector to | `string` | n/a | yes |
 | <a name="input_service_tags"></a> [service\_tags](#input\_service\_tags) | List of Azure Service Tags which excludes those services from routing via Alkira | `list(string)` | `[]` | no |
 | <a name="input_size"></a> [size](#input\_size) | Alkira - connector size | `string` | `"SMALL"` | no |
-| <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets to create for cloud network | `list(map(string))` | <pre>[<br>  {}<br>]</pre> | no |
+| <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets to create for cloud network | `list(map(string))` | n/a | yes |
 
 ## Outputs
 
@@ -143,4 +103,4 @@ No modules.
 | <a name="output_subnet"></a> [subnet](#output\_subnet) | Azure subnet configuration |
 | <a name="output_vnet_cidr"></a> [vnet\_cidr](#output\_vnet\_cidr) | Azure VNet CIDR |
 | <a name="output_vnet_id"></a> [vnet\_id](#output\_vnet\_id) | Azure VNet ID |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

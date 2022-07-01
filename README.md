@@ -156,7 +156,7 @@ No modules.
 | <a name="input_segment"></a> [segment](#input\_segment) | Alkira - segment to add connector to | `string` | n/a | yes |
 | <a name="input_service_tags"></a> [service\_tags](#input\_service\_tags) | List of Azure Service Tags which excludes those services from routing via Alkira | `list(string)` | `[]` | no |
 | <a name="input_size"></a> [size](#input\_size) | Alkira - connector size | `string` | `"SMALL"` | no |
-| <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets to create for cloud network | `list(map(string))` | <pre>[<br>  {}<br>]</pre> | no |
+| <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets to create for cloud network | `list(map(string))` | n/a | yes |
 
 ## Outputs
 

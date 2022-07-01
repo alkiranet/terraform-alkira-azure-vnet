@@ -34,7 +34,6 @@ variable "cidr" {
 variable "subnets" {
   description = "Subnets to create for cloud network"
   type        = list(map(string))
-  default     = [{}]
 }
 
 variable "billing_tags" {
